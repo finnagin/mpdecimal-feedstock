@@ -7,8 +7,10 @@ if [[ "$target_platform" == "linux-"* ]]; then
   export CXX=${GXX}
 fi
 
+export CXXFLAGS="${CXXFLAGS} ${LDFLAGS}"
+export CFLAGS="${CFLAGS} ${LDFLAGS}"
+
 ./configure --prefix=$PREFIX --disable-static --disable-doc
-[[ "$target_platform" == "win-64" ]] && patch_libtool
 make -j$CPU_COUNT
 make install
 
