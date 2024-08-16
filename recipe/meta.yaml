@@ -10,16 +10,16 @@ source:
 
 build:
   number: 0
-  skip: True  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - make
-    - wget
-    - unzip
+    - autotools_clang_conda  # [win]
+    - make                   # [unix]
+    - wget                   # [unix]
+    - unzip                  # [unix]
   host:
   run:
 
@@ -37,11 +37,13 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libmpdec.so.4     # [linux]
         - test -f ${PREFIX}/lib/libmpdec.4.dylib  # [osx]
+        - if not exist %LIBRARY_BIN%\libmpdec.dll exit 1   # [win]
 
   - name: libmpdecxx
     files:
       - lib/libmpdec++.so.*
       - lib/libmpdec++.*.dylib
+      - Library/bin/libmpdec++.dll
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -54,6 +56,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libmpdec++.so.4     # [linux]
         - test -f ${PREFIX}/lib/libmpdec++.4.dylib  # [osx]
+        - if not exist %LIBRARY_BIN%\libmpdec++.dll exit 1   # [win]
 
   - name: libmpdec-devel
     build:
@@ -64,12 +67,16 @@ outputs:
       - lib/libmpdec.dylib
       - lib/pkgconfig/libmpdec.pc
       - include/mpdecimal.h
+      - Library/lib/mpdec.lib
+      - Library/lib/pkgconfig/libmpdec.pc
+      - Library/include/mpdecimal.h
     requirements:
       - {{ pin_subpackage("libmpdec", exact=True) }}
     test:
       commands:
         - test -f ${PREFIX}/lib/libmpdec.so     # [linux]
         - test -f ${PREFIX}/lib/libmpdec.dylib  # [osx]
+        - if not exist %LIBRARY_LIB%\mpdec.lib exit 1   # [win]
 
   - name: libmpdecxx-devel
     build:
@@ -80,6 +87,9 @@ outputs:
       - lib/libmpdec++.dylib
       - lib/pkgconfig/libmpdec++.pc
       - include/decimal.hh
+      - Library/lib/mpdec++.lib
+      - Library/lib/pkgconfig/libmpdec++.pc
+      - Library/include/decimal.hh
     requirements:
       - {{ pin_subpackage("libmpdecxx", exact=True) }}
       - {{ pin_subpackage("libmpdec-devel", exact=True) }}
@@ -87,6 +97,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libmpdec++.so     # [linux]
         - test -f ${PREFIX}/lib/libmpdec++.dylib  # [osx]
+        - if not exist %LIBRARY_LIB%\mpdec++.lib exit 1   # [win]
 
 about:
   home: https://github.com/simplejson/simplejson
