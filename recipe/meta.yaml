@@ -29,7 +29,7 @@ outputs:
     files:
       - lib/libmpdec.so.*
       - lib/libmpdec.*.dylib
-      - Library/bin/libmpdec.dll
+      - Library/bin/libmpdec-*.dll
     requirements:
       build:
         - {{ compiler('c') }}
@@ -44,7 +44,7 @@ outputs:
     files:
       - lib/libmpdec++.so.*
       - lib/libmpdec++.*.dylib
-      - Library/bin/libmpdec++.dll
+      - Library/bin/libmpdec++-*.dll
     requirements:
       build:
         - {{ compiler('cxx') }}
