@@ -7,6 +7,8 @@ package:
 source:
   url: https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-{{ version }}.tar.gz
   sha256: 942445c3245b22730fd41a67a7c5c231d11cb1b9936b9c0f76334fb7d0b4468c
+  patches:
+    - fix-dll-name.diff
 
 build:
   number: 0
@@ -16,7 +18,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - autotools_clang_conda  # [win]
     - make                   # [unix]
     - wget                   # [unix]
     - unzip                  # [unix]
@@ -37,7 +38,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libmpdec.so.4     # [linux]
         - test -f ${PREFIX}/lib/libmpdec.4.dylib  # [osx]
-        - if not exist %LIBRARY_BIN%\libmpdec.dll exit 1   # [win]
+        - if not exist %LIBRARY_BIN%\libmpdec-4.dll exit 1   # [win]
 
   - name: libmpdecxx
     files:
@@ -56,7 +57,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libmpdec++.so.4     # [linux]
         - test -f ${PREFIX}/lib/libmpdec++.4.dylib  # [osx]
-        - if not exist %LIBRARY_BIN%\libmpdec++.dll exit 1   # [win]
+        - if not exist %LIBRARY_BIN%\libmpdec++-4.dll exit 1   # [win]
 
   - name: libmpdec-devel
     build:
@@ -68,7 +69,6 @@ outputs:
       - lib/pkgconfig/libmpdec.pc
       - include/mpdecimal.h
       - Library/lib/mpdec.lib
-      - Library/lib/pkgconfig/libmpdec.pc
       - Library/include/mpdecimal.h
     requirements:
       - {{ pin_subpackage("libmpdec", exact=True) }}
@@ -88,7 +88,6 @@ outputs:
       - lib/pkgconfig/libmpdec++.pc
       - include/decimal.hh
       - Library/lib/mpdec++.lib
-      - Library/lib/pkgconfig/libmpdec++.pc
       - Library/include/decimal.hh
     requirements:
       - {{ pin_subpackage("libmpdecxx", exact=True) }}
