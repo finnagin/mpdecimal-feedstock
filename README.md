@@ -3,7 +3,7 @@ About mpdecimal-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/mpdecimal-feedstock/blob/main/LICENSE.txt)
 
-Home: https://github.com/simplejson/simplejson
+Home: https://www.bytereef.org/mpdecimal/index.html
 
 Package license: BSD-2-Clause
 
