@@ -2,7 +2,7 @@
 
 set dbg=0
 if "%ARCH%"=="arm64" (
-  set machine=arm64
+  set machine=ansi64
 ) else (
   set machine=x64
 )
