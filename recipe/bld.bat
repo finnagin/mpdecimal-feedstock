@@ -1,7 +1,11 @@
 @ECHO off
 
 set dbg=0
-set machine=x64
+if "%ARCH%"=="arm64" (
+  set machine=arm64
+) else (
+  set machine=x64
+)
 
 mkdir %LIBRARY_BIN%
 mkdir %LIBRARY_LIB%
